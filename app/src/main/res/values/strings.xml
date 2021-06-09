@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">nemu-droid</string>
+    <string name="nemu_location">nEMU location</string>string>
+    <string name="nemu_port">nEMU port (default: 20509)</string>string>
+    <string name="nemu_password">password</string>string>
+    <string name="nemu_connect">CONNECT</string>string>
 </resources>
