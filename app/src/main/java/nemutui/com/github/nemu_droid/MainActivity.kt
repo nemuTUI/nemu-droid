@@ -3,6 +3,8 @@ package nemutui.com.github.nemu_droid
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -17,6 +19,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        /* This is bad I know, but I'm noob in Kotlin and Android */
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
         api_conn_et = findViewById<EditText>(R.id.nemu_api_location)
         api_port_et = findViewById<EditText>(R.id.nemu_api_port)
