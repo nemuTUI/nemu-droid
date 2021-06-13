@@ -56,12 +56,14 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
             try {
                     val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp()
                             .connect(InetSocketAddress(api_addr, api_port.toInt()))
-                            .tls(Dispatchers.IO, if (!api_trust) X509TrustAllManager() else null, "SHA1PRNG")
+                            .tls(Dispatchers.IO, if (!api_trust) X509TrustAllManager() else null,
+                                "SHA1PRNG")
                     val sw = socket.openWriteChannel(autoFlush = false)
                     sw.writeStringUtf8(request)
                     sw.flush()
                     val sr = socket.openReadChannel()
                     reply = sr.readUTF8Line().toString()
+                    socket.close()
                 } catch (ex: Exception) {
                     Log.e("nemu-droid", "something goes wrong", ex)
                     err_msg = ex.message.toString()
