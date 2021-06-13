@@ -29,7 +29,7 @@
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/nemu_api_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nemu_api_location" />
 
@@ -37,13 +37,12 @@
         android:id="@+id/nemu_api_password"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="256dp"
         android:ems="10"
         android:hint="@string/nemu_password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/connect_button"
+        app:layout_constraintBottom_toTopOf="@+id/trust_all_sw"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nemu_api_port" />
 
@@ -51,11 +50,23 @@
         android:id="@+id/connect_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:onClick="connectToApi"
+        android:layout_marginTop="256dp"
+        android:layout_marginBottom="16dp"
         android:enabled="false"
+        android:onClick="connectToApi"
         android:text="@string/nemu_connect"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trust_all_sw" />
+
+    <Switch
+        android:id="@+id/trust_all_sw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="check certificate"
+        app:layout_constraintBottom_toTopOf="@+id/connect_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

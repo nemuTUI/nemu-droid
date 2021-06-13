@@ -10,10 +10,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 
 const val EXTRA_NEMU_API_LOCATION = "nemutui.com.github.nemu_droid.EXTRA_NEMU_API_LOCATION"
 const val EXTRA_NEMU_API_PASSWORD = "nemutui.com.github.nemu_droid.EXTRA_NEMU_API_PASSWORD"
 const val EXTRA_NEMU_API_PORT     = "nemutui.com.github.nemu_droid.EXTRA_NEMU_API_PORT"
+const val EXTRA_CHECK_CERTIFICATE = "nemutui.com.github.nemu_droid.EXTRA_CHECK_CERTIFICATE"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +39,13 @@ class MainActivity : AppCompatActivity() {
         val api_conn = api_conn_et.text.toString()
         val api_port = api_port_et.text.toString()
         val api_pass = api_pass_et.text.toString()
+        val check_cert = findViewById<Switch>(R.id.trust_all_sw)
 
         val intent = Intent(this, ConnectToApiActivity::class.java).apply {
             putExtra(EXTRA_NEMU_API_LOCATION, api_conn)
             putExtra(EXTRA_NEMU_API_PASSWORD, api_pass)
             putExtra(EXTRA_NEMU_API_PORT, api_port)
+            putExtra(EXTRA_CHECK_CERTIFICATE, check_cert.isChecked())
         }
 
         startActivity(intent)

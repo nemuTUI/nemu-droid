@@ -12,12 +12,21 @@ class ConnectToApiActivity : AppCompatActivity() {
         val api_conn = intent.getStringExtra(EXTRA_NEMU_API_LOCATION)
         val api_port = intent.getStringExtra(EXTRA_NEMU_API_PORT)
         val api_pass = intent.getStringExtra(EXTRA_NEMU_API_PASSWORD)
+        val api_trust = intent.getBooleanExtra(EXTRA_CHECK_CERTIFICATE, false)
 
-        val nemu_client = NemuApiClient(api_conn, api_port, api_pass)
-        val auth_res = nemu_client.checkAuth()
+        val nemu_client = NemuApiClient(api_conn, api_port, api_pass, api_trust)
+        val auth_res = nemu_client.nemuVersion()
 
-        val tv = findViewById<TextView>(R.id.api_location).apply {
-            this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
+        val tv = findViewById<TextView>(R.id.api_location)
+
+        if (auth_res) {
+            tv.apply {
+                this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getVersion()
+            }
+        } else {
+            tv.apply {
+                this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
+            }
         }
     }
 }

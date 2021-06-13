@@ -17,10 +17,20 @@ class X509TrustAllManager : X509TrustManager {
     override fun getAcceptedIssuers(): Array<X509Certificate?> = arrayOfNulls<X509Certificate>(0)
 }
 
-class NemuApiClient(addr: String?, port: String?, pass: String?) {
+class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean) {
     fun checkAuth(): Boolean {
-        if (this.connect()) {
-            //this.err_msg = "connect ok"
+        val request = "{\"exec\":\"auth\", \"auth\":\"" + api_pass + "\"}"
+        if (this.send_request(request)) {
+            return true
+        }
+
+        return false
+    }
+
+    fun nemuVersion() : Boolean {
+        val request = "{\"exec\":\"nemu_version\", \"auth\":\"" + api_pass + "\"}"
+        if (this.send_request(request)) {
+            version = reply
             return true
         }
 
@@ -31,7 +41,11 @@ class NemuApiClient(addr: String?, port: String?, pass: String?) {
         return this.err_msg
     }
 
-    private fun connect(): Boolean {
+    fun getVersion() : String {
+        return this.version
+    }
+
+    private fun send_request(request: String): Boolean {
         var rc = true
         if (api_addr == null || api_port == null || api_pass == null) {
             this.err_msg = "null input params"
@@ -39,15 +53,15 @@ class NemuApiClient(addr: String?, port: String?, pass: String?) {
         }
 
         runBlocking {
-                try {
+            try {
                     val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp()
                             .connect(InetSocketAddress(api_addr, api_port.toInt()))
-                            .tls(Dispatchers.IO, X509TrustAllManager(), "SHA1PRNG")
+                            .tls(Dispatchers.IO, if (!api_trust) X509TrustAllManager() else null, "SHA1PRNG")
                     val sw = socket.openWriteChannel(autoFlush = false)
-                    sw.writeFully("{\"exec\": \"version\"}".toByteArray())
+                    sw.writeStringUtf8(request)
                     sw.flush()
                     val sr = socket.openReadChannel()
-                    err_msg = sr.readUTF8Line().toString()
+                    reply = sr.readUTF8Line().toString()
                 } catch (ex: Exception) {
                     Log.e("nemu-droid", "something goes wrong", ex)
                     err_msg = ex.message.toString()
@@ -61,5 +75,8 @@ class NemuApiClient(addr: String?, port: String?, pass: String?) {
     private val api_addr = addr
     private val api_port = port
     private val api_pass = pass
+    private val api_trust = trust
     private var err_msg : String = ""
+    private lateinit var reply : String
+    private lateinit var version : String
 }
