@@ -7,6 +7,7 @@ import io.ktor.network.tls.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 import javax.net.ssl.X509TrustManager
@@ -30,7 +31,15 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     fun nemuVersion() : Boolean {
         val request = "{\"exec\":\"nemu_version\", \"auth\":\"" + api_pass + "\"}"
         if (this.send_request(request)) {
-            version = reply
+            var json_reply = JSONObject(reply)
+            if (!json_reply.isNull("error")) {
+                val err = json_reply.getString("error")
+                err_msg = err
+                return false
+            }
+
+            val ver = json_reply.getString("return")
+            version = ver
             return true
         }
 

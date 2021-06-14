@@ -3,6 +3,8 @@ package nemutui.com.github.nemu_droid
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class ConnectToApiActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,18 +17,28 @@ class ConnectToApiActivity : AppCompatActivity() {
         val api_trust = intent.getBooleanExtra(EXTRA_CHECK_CERTIFICATE, false)
 
         val nemu_client = NemuApiClient(api_conn, api_port, api_pass, api_trust)
-        val auth_res = nemu_client.nemuVersion()
+        val auth_res = nemu_client.checkAuth()
 
         val tv = findViewById<TextView>(R.id.api_location)
 
-        if (auth_res) {
-            tv.apply {
-                this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getVersion()
-            }
-        } else {
+        if (!auth_res) {
             tv.apply {
                 this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
             }
+        } else {
+            val ver = nemu_client.nemuVersion()
+
+            if (ver) {
+                tv.apply {
+                    this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getVersion()
+                }
+            } else {
+                tv.apply {
+                    this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
+                }
+            }
+            val rv = findViewById<RecyclerView>(R.id.vm_list_rv)
+            rv.layoutManager = LinearLayoutManager(this)
         }
     }
 }
