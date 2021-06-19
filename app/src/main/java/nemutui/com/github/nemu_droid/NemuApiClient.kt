@@ -7,6 +7,7 @@ import io.ktor.network.tls.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
@@ -22,6 +23,30 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     fun checkAuth(): Boolean {
         val request = "{\"exec\":\"auth\", \"auth\":\"" + api_pass + "\"}"
         if (this.send_request(request)) {
+            return true
+        }
+
+        return false
+    }
+
+    fun getVmList() : Boolean {
+        val request = "{\"exec\":\"vm_list\", \"auth\":\"" + api_pass + "\"}"
+        vmlist.clear()
+
+        if (this.send_request(request)) {
+            var i = 0
+            var json_reply = JSONObject(reply)
+            var vms = json_reply.getJSONArray("return")
+            var vm_count = vms.length()
+
+            for (i in 0 .. (vm_count - 1)) {
+                var vm = vms.getJSONObject(i)
+                var name = vm.getString("name")
+                var status = vm.getBoolean("status")
+
+                vmlist.put(name, status)
+            }
+
             return true
         }
 
@@ -90,4 +115,5 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     private var err_msg : String = ""
     private lateinit var reply : String
     private lateinit var version : String
+    private lateinit var vmlist: MutableMap<String, Boolean>
 }
