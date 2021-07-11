@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -44,8 +45,12 @@ class ConnectToApiActivity : AppCompatActivity() {
                 //kill app?
             }
             val rv = findViewById<RecyclerView>(R.id.vm_list_rv)
-            rv.layoutManager = LinearLayoutManager(this)
-            rv.adapter = VmListAadapter(nemu_client.vmlist)
+            rv.apply {
+                setHasFixedSize(true)
+                adapter = VmListAadapter(nemu_client.vmlist)
+                layoutManager = LinearLayoutManager(this.context)
+                addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+            }
         }
     }
 }
