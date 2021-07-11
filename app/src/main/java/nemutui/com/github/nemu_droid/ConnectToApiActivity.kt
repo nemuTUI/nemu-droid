@@ -2,6 +2,7 @@ package nemutui.com.github.nemu_droid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,8 +38,14 @@ class ConnectToApiActivity : AppCompatActivity() {
                     this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
                 }
             }
+
+            if (!nemu_client.getVmList()) {
+                Log.e("nemu-droid", "cannot get VM list")
+                //kill app?
+            }
             val rv = findViewById<RecyclerView>(R.id.vm_list_rv)
             rv.layoutManager = LinearLayoutManager(this)
+            rv.adapter = VmListAadapter(nemu_client.vmlist)
         }
     }
 }

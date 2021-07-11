@@ -31,7 +31,11 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
 
     fun getVmList() : Boolean {
         val request = "{\"exec\":\"vm_list\", \"auth\":\"" + api_pass + "\"}"
-        vmlist.clear()
+        if (::vmlist.isInitialized) {
+            vmlist.clear()
+        } else {
+            vmlist = mutableMapOf()
+        }
 
         if (this.send_request(request)) {
             var i = 0
@@ -115,5 +119,6 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     private var err_msg : String = ""
     private lateinit var reply : String
     private lateinit var version : String
-    private lateinit var vmlist: MutableMap<String, Boolean>
+
+    lateinit var vmlist: MutableMap<String, Boolean>
 }
