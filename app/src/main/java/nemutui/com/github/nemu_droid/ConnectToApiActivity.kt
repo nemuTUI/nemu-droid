@@ -49,7 +49,6 @@ class ConnectToApiActivity : AppCompatActivity() {
                 setHasFixedSize(true)
                 adapter = VmListAadapter(nemu_client.vmlist)
                 layoutManager = LinearLayoutManager(this.context)
-                addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
             }
         }
     }
