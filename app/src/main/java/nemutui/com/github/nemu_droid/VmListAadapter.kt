@@ -47,6 +47,7 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                         if (!status) {
                             nemu_api.startVm(name)
                             Toast.makeText(holder.itemView.context, name + " started", Toast.LENGTH_SHORT).show()
+
                         } else {
                             Toast.makeText(holder.itemView.context, name + " already started", Toast.LENGTH_SHORT).show()
                         }
@@ -59,6 +60,27 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                         } else {
                             Toast.makeText(holder.itemView.context, name + " already stopped", Toast.LENGTH_SHORT).show()
                         }
+                        true
+                    }
+                    R.id.menu_force_stop -> {
+                        if (status) {
+                            nemu_api.forceStopVm(name)
+                            Toast.makeText(holder.itemView.context, name + " force stopped", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(holder.itemView.context, name + " already stopped", Toast.LENGTH_SHORT).show()
+                        }
+                        true
+                    }
+                    R.id.menu_refresh -> {
+                        nemu_api.getVmList()
+                        vmlist = nemu_api.vmlist.toList()
+                        this.notifyDataSetChanged()
+                        /*
+                         list.remove(position);
+                         recycler.removeViewAt(position);
+                         mAdapter.notifyItemRemoved(position);
+                         mAdapter.notifyItemRangeChanged(position, list.size());
+                         */
                         true
                     }
                     else -> false
