@@ -16,16 +16,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/refresh"
+    <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="#FFFFFF"
+        android:contentDescription="@string/data_refresh"
         android:onClick="refreshData"
-        android:text="@string/data_refresh"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vm_list_rv"
@@ -35,6 +37,5 @@
         android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="56dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
