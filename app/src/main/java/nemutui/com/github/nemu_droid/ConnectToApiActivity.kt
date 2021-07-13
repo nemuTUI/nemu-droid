@@ -47,7 +47,7 @@ class ConnectToApiActivity : AppCompatActivity() {
             val rv = findViewById<RecyclerView>(R.id.vm_list_rv)
             rv.apply {
                 setHasFixedSize(true)
-                adapter = VmListAadapter(nemu_client.vmlist)
+                adapter = VmListAadapter(nemu_client.vmlist, nemu_client)
                 layoutManager = LinearLayoutManager(this.context)
             }
         }

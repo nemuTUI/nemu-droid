@@ -1,6 +1,7 @@
 package nemutui.com.github.nemu_droid
 
 import android.util.Log
+import android.widget.Toast
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.network.tls.*
@@ -35,6 +36,24 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         }
 
         return false
+    }
+
+    fun startVm(name: String) {
+        val request = "{\"exec\":\"vm_start\", \"name\":\"" + name +
+                "\", \"auth\":\"" + api_pass + "\"}"
+
+        if (this.send_request(request)) {
+            return
+        }
+    }
+
+    fun stopVm(name: String) {
+        val request = "{\"exec\":\"vm_stop\", \"name\":\"" + name +
+                "\", \"auth\":\"" + api_pass + "\"}"
+
+        if (this.send_request(request)) {
+            return
+        }
     }
 
     fun getVmList() : Boolean {
