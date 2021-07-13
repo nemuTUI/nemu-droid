@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
                 android:paddingLeft="16dp"
                 android:text="&#8942;"
                 android:textAppearance="?android:textAppearanceLarge" />
