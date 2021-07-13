@@ -46,28 +46,34 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                     R.id.menu_start -> {
                         if (!status) {
                             nemu_api.startVm(name)
-                            Toast.makeText(holder.itemView.context, name + " started", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(holder.itemView.context, name + " started",
+                                    Toast.LENGTH_SHORT).show()
 
                         } else {
-                            Toast.makeText(holder.itemView.context, name + " already started", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(holder.itemView.context, name + " already started",
+                                    Toast.LENGTH_SHORT).show()
                         }
                         true
                     }
                     R.id.menu_stop -> {
                         if (status) {
                             nemu_api.stopVm(name)
-                            Toast.makeText(holder.itemView.context, name + " stopped", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(holder.itemView.context, name + " stopped",
+                                    Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(holder.itemView.context, name + " already stopped", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(holder.itemView.context, name + " already stopped",
+                                    Toast.LENGTH_SHORT).show()
                         }
                         true
                     }
                     R.id.menu_force_stop -> {
                         if (status) {
                             nemu_api.forceStopVm(name)
-                            Toast.makeText(holder.itemView.context, name + " force stopped", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(holder.itemView.context, name + " force stopped",
+                                    Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(holder.itemView.context, name + " already stopped", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(holder.itemView.context, name + " already stopped",
+                                    Toast.LENGTH_SHORT).show()
                         }
                         true
                     }
