@@ -23,7 +23,15 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     fun checkAuth(): Boolean {
         val request = "{\"exec\":\"auth\", \"auth\":\"" + api_pass + "\"}"
         if (this.send_request(request)) {
-            return true
+            var json_reply = JSONObject(reply)
+            var verdict = json_reply.getString("return")
+
+            if (verdict == "ok") {
+                return true
+            }
+
+            err_msg = json_reply.getString("error")
+            return false
         }
 
         return false
