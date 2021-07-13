@@ -71,18 +71,6 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                         }
                         true
                     }
-                    R.id.menu_refresh -> {
-                        nemu_api.getVmList()
-                        vmlist = nemu_api.vmlist.toList()
-                        this.notifyDataSetChanged()
-                        /*
-                         list.remove(position);
-                         recycler.removeViewAt(position);
-                         mAdapter.notifyItemRemoved(position);
-                         mAdapter.notifyItemRangeChanged(position, list.size());
-                         */
-                        true
-                    }
                     else -> false
                 }
             }
@@ -92,6 +80,6 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
 
     override fun getItemCount() = vms.count()
 
-    private var vmlist: List<Pair<String, Boolean>> = vms.toList()
+    var vmlist: List<Pair<String, Boolean>> = vms.toList()
     private var nemu_api: NemuApiClient = api
 }

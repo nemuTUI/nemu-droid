@@ -13,8 +13,4 @@
         android:id="@+id/menu_force_stop"
         android:title="Force stop" />
 
-    <item
-        android:id="@+id/menu_refresh"
-        android:title="Refresh" />
-
 </menu>

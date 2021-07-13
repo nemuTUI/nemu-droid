@@ -3,6 +3,7 @@ package nemutui.com.github.nemu_droid
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,8 @@ class ConnectToApiActivity : AppCompatActivity() {
 
         val nemu_client = NemuApiClient(api_conn, api_port, api_pass, api_trust)
         val auth_res = nemu_client.checkAuth()
+
+        nemu_api = nemu_client
 
         val tv = findViewById<TextView>(R.id.api_location)
 
@@ -45,11 +48,29 @@ class ConnectToApiActivity : AppCompatActivity() {
                 //kill app?
             }
             val rv = findViewById<RecyclerView>(R.id.vm_list_rv)
+            val rv_adapter =  VmListAadapter(nemu_client.vmlist, nemu_client)
+            rec_view = rv_adapter
+
             rv.apply {
                 setHasFixedSize(true)
-                adapter = VmListAadapter(nemu_client.vmlist, nemu_client)
+                adapter = rv_adapter
                 layoutManager = LinearLayoutManager(this.context)
             }
         }
     }
+
+    fun refreshData(view: View) {
+        nemu_api.getVmList()
+        rec_view.vmlist = nemu_api.vmlist.toList()
+        rec_view.notifyDataSetChanged()
+        /*
+         list.remove(position);
+         recycler.removeViewAt(position);
+         mAdapter.notifyItemRemoved(position);
+         mAdapter.notifyItemRangeChanged(position, list.size());
+         */
+    }
+
+    lateinit private var rec_view : VmListAadapter
+    lateinit private var nemu_api : NemuApiClient
 }
