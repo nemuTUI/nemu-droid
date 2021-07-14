@@ -1,5 +1,7 @@
 package nemutui.com.github.nemu_droid
 
+import android.content.Intent
+import android.net.Uri
 import android.service.autofill.OnClickAction
 import android.view.LayoutInflater
 import android.view.View
@@ -73,6 +75,37 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                                     Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(holder.itemView.context, name + " already stopped",
+                                    Toast.LENGTH_SHORT).show()
+                        }
+                        true
+                    }
+                    R.id.menu_connect -> {
+                        if (status) {
+                            var aspice_intent = holder.itemView.context.
+                            getPackageManager().getLaunchIntentForPackage(
+                                    "com.iiordanov.freeaSPICE")
+
+                            if (aspice_intent == null) {
+                                Toast.makeText(holder.itemView.context, "install aSPICE",
+                                        Toast.LENGTH_SHORT).show()
+                            } else {
+                                /*
+                                spice://10.34.62.41:-1?SpicePassword=password&TlsPort=5910&CertSubject=subject&CaCertPath=/path/to/ca.crt
+                                 */
+                                if (nemu_api.connectPort(name)) {
+                                    var intent = Intent(Intent.ACTION_VIEW)
+                                    intent.setType("application/vnd.spice")
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    intent.setData(Uri.parse("spice://" + nemu_api.getApiAddr()
+                                            + ":" + nemu_api.getConnectPort()))
+                                    holder.itemView.context.startActivity(intent)
+                                } else {
+                                    Toast.makeText(holder.itemView.context, name + "cannot get connect port",
+                                            Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(holder.itemView.context, name + " not running",
                                     Toast.LENGTH_SHORT).show()
                         }
                         true

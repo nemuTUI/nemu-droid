@@ -110,12 +110,39 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         return false
     }
 
+    fun connectPort(name: String) : Boolean {
+        val request = "{\"exec\":\"vm_get_connect_port\", \"name\":\"" + name +
+                "\", \"auth\":\"" + api_pass + "\"}"
+        if (this.send_request(request)) {
+            var json_reply = JSONObject(reply)
+            if (!json_reply.isNull("error")) {
+                val err = json_reply.getString("error")
+                err_msg = err
+                return false
+            }
+
+            val port = json_reply.getString("return")
+            connect_port = port
+            return true
+        }
+
+        return false
+    }
+
     fun getErr() : String {
         return this.err_msg
     }
 
     fun getVersion() : String {
         return this.version
+    }
+
+    fun getApiAddr() : String? {
+        return this.api_addr
+    }
+
+    fun getConnectPort() : String? {
+        return this.connect_port
     }
 
     private fun send_request(request: String): Boolean {
@@ -154,6 +181,7 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     private var err_msg : String = ""
     private lateinit var reply : String
     private lateinit var version : String
+    private lateinit var connect_port : String
 
     lateinit var vmlist: MutableMap<String, Boolean>
 }

@@ -13,4 +13,8 @@
         android:id="@+id/menu_force_stop"
         android:title="Force stop" />
 
+    <item
+        android:id="@+id/menu_connect"
+        android:title="Connect" />
+
 </menu>
