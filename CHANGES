@@ -1,0 +1,10 @@
+
+v0.?.? - ?
+----------------------
+    - Change: move refresh button to menu
+    - Feature: use default connection port if field is empty
+    - Feature: save previous address/port/check_cert input
+
+v0.0.1 - 14 July 2021
+----------------------
+    - The first public version
