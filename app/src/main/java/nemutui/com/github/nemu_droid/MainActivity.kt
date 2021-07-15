@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ConnectToApiActivity::class.java).apply {
             putExtra(EXTRA_NEMU_API_LOCATION, api_conn)
             putExtra(EXTRA_NEMU_API_PASSWORD, api_pass)
-            putExtra(EXTRA_NEMU_API_PORT, api_port)
+            putExtra(EXTRA_NEMU_API_PORT, if (api_port.isNullOrEmpty()) "20509" else api_port)
             putExtra(EXTRA_CHECK_CERTIFICATE, check_cert.isChecked())
         }
 
@@ -57,9 +57,8 @@ class MainActivity : AppCompatActivity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val connect_button = findViewById<Button>(R.id.connect_button)
             val api_conn = api_conn_et.text.toString()
-            val api_port = api_port_et.text.toString()
             val api_pass = api_pass_et.text.toString()
-            val state = !api_conn.isEmpty() && !api_port.isEmpty() && !api_pass.isEmpty()
+            val state = !api_conn.isEmpty() && !api_pass.isEmpty()
 
             connect_button.isEnabled = state
         }
