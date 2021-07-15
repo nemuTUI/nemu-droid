@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.ImageButton
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +38,6 @@ class ConnectToApiActivity : AppCompatActivity() {
             }
         } else {
             val ver = nemu_client.nemuVersion()
-            val refresh_butt = findViewById<ImageButton>(R.id.refresh_butt)
-            refresh_butt.setVisibility(View.VISIBLE)
 
             if (ver) {
                 tv.apply {
@@ -66,7 +65,18 @@ class ConnectToApiActivity : AppCompatActivity() {
         }
     }
 
-    fun refreshData(view: View) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu to use in the action bar
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+
+        val refresh_butt = menu.findItem(R.id.refresh_butt)
+        refresh_butt.setVisible(true)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    fun refreshData(menu: MenuItem) {
         nemu_api.getVmList()
         rec_view.vmlist = nemu_api.vmlist.toList()
         rec_view.notifyDataSetChanged()

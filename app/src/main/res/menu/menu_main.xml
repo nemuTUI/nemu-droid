@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/refresh_butt"
+        android:visible="false"
+        android:title="@string/data_refresh"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        android:onClick="refreshData"
+        app:showAsAction="always" />
+</menu>
