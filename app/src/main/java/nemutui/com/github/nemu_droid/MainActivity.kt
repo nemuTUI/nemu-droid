@@ -2,6 +2,8 @@ package nemutui.com.github.nemu_droid
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
+import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.*
@@ -29,23 +31,38 @@ class MainActivity : AppCompatActivity() {
         api_conn_et = findViewById<EditText>(R.id.nemu_api_location)
         api_port_et = findViewById<EditText>(R.id.nemu_api_port)
         api_pass_et = findViewById<EditText>(R.id.nemu_api_password)
+        api_check_cert_et = findViewById<Switch>(R.id.trust_all_sw)
 
         api_conn_et.addTextChangedListener(connect_text_watcher)
         api_port_et.addTextChangedListener(connect_text_watcher)
         api_pass_et.addTextChangedListener(connect_text_watcher)
+
+        preferences = getSharedPreferences(
+            getPackageName() + "_preferences", Context.MODE_PRIVATE)
+
+        api_conn_et.setText(preferences.getString("api_conn", ""))
+        api_port_et.setText(preferences.getString("api_port", ""))
+        api_check_cert_et.setChecked(preferences.getBoolean("api_check_cert", false))
     }
 
     fun connectToApi(view: View) {
         val api_conn = api_conn_et.text.toString()
         val api_port = api_port_et.text.toString()
         val api_pass = api_pass_et.text.toString()
-        val check_cert = findViewById<Switch>(R.id.trust_all_sw)
+        val check_cert = api_check_cert_et.isChecked()
+
+        val editor = preferences.edit()
+        editor.putString("api_conn", api_conn)
+        editor.putString("api_port", api_port)
+        editor.putBoolean("api_check_cert", check_cert)
+        editor.apply();
 
         val intent = Intent(this, ConnectToApiActivity::class.java).apply {
             putExtra(EXTRA_NEMU_API_LOCATION, api_conn)
             putExtra(EXTRA_NEMU_API_PASSWORD, api_pass)
-            putExtra(EXTRA_NEMU_API_PORT, if (api_port.isNullOrEmpty()) "20509" else api_port)
-            putExtra(EXTRA_CHECK_CERTIFICATE, check_cert.isChecked())
+            putExtra(EXTRA_NEMU_API_PORT,
+                if (api_port.isNullOrEmpty()) getString(R.string.nemu_default_port) else api_port)
+            putExtra(EXTRA_CHECK_CERTIFICATE, check_cert)
         }
 
         startActivity(intent)
@@ -67,4 +84,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var api_conn_et : EditText
     private lateinit var api_port_et : EditText
     private lateinit var api_pass_et : EditText
+    private lateinit var api_check_cert_et : Switch
+    private lateinit var preferences : SharedPreferences
 }

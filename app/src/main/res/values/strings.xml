@@ -1,7 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE resources [
+        <!ENTITY nemu_default_port "20509">
+    ]>
 <resources>
     <string name="app_name">nemu-droid</string>
     <string name="nemu_location">nEMU location</string>
-    <string name="nemu_port">nEMU port (default: 20509)</string>
+    <string name="nemu_default_port">&nemu_default_port;</string>
+    <string name="nemu_port">nEMU port (default: &nemu_default_port;)</string>
     <string name="nemu_password">password</string>
     <string name="nemu_connect">CONNECT</string>
     <string name="data_refresh">refresh</string>>
