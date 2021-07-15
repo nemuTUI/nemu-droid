@@ -70,8 +70,10 @@ class ConnectToApiActivity : AppCompatActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
 
-        val refresh_butt = menu.findItem(R.id.refresh_butt)
-        refresh_butt.setVisible(true)
+        if (nemu_api.checkAuth()) {
+            val refresh_butt = menu.findItem(R.id.refresh_butt)
+            refresh_butt.setVisible(true)
+        }
 
         return super.onCreateOptionsMenu(menu)
     }
