@@ -9,5 +9,6 @@
     <string name="nemu_port">nEMU port (default: &nemu_default_port;)</string>
     <string name="nemu_password">password</string>
     <string name="nemu_connect">CONNECT</string>
+    <string name="nemu_settings">settings</string>
     <string name="data_refresh">refresh</string>>
 </resources>
