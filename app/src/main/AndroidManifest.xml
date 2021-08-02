@@ -19,6 +19,13 @@
                 android:value=".MainActivity">
             </meta-data>
         </activity>
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".ConnectToApiActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ConnectToApiActivity">
+            </meta-data>
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,16 +1,14 @@
 package nemutui.com.github.nemu_droid
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.service.autofill.OnClickAction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiClient) :
@@ -81,7 +79,7 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                     }
                     R.id.menu_connect -> {
                         if (status) {
-                            var aspice_intent = holder.itemView.context.
+                            val aspice_intent = holder.itemView.context.
                             getPackageManager().getLaunchIntentForPackage(
                                     "com.iiordanov.freeaSPICE")
 
@@ -89,15 +87,25 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                                 Toast.makeText(holder.itemView.context, "install aSPICE",
                                         Toast.LENGTH_SHORT).show()
                             } else {
-                                /*
-                                spice://10.34.62.41:-1?SpicePassword=password&TlsPort=5910&CertSubject=subject&CaCertPath=/path/to/ca.crt
-                                 */
                                 if (nemu_api.connectPort(name)) {
-                                    var intent = Intent(Intent.ACTION_VIEW)
+                                    val preferences = holder.itemView.context.getSharedPreferences(
+                                        holder.itemView.context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
+                                    val intent = Intent(Intent.ACTION_VIEW)
+                                    val use_ssh = preferences.getBoolean("ssh_proxy", false)
+                                    val ssh_host = preferences.getString("ssh_host", nemu_api.getApiAddr())
+                                    val ssh_port = preferences.getString("ssh_port", "22")
+                                    val ssh_user = preferences.getString("ssh_user", "user")
+                                    var uri = "spice://" + nemu_api.getApiAddr() + ":" +
+                                           nemu_api.getConnectPort() + "?ConnectionName=" + name
+
+                                    if (use_ssh) {
+                                        uri += "&VncPassword=anystring&SshHost=" + ssh_host + "&SshPort=" +
+                                            ssh_port + "&SshUsername=" + ssh_user + "&SecurityType=24"
+                                    }
+
                                     intent.setType("application/vnd.spice")
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    intent.setData(Uri.parse("spice://" + nemu_api.getApiAddr()
-                                            + ":" + nemu_api.getConnectPort()))
+                                    intent.setData(Uri.parse(uri))
                                     holder.itemView.context.startActivity(intent)
                                 } else {
                                     Toast.makeText(holder.itemView.context, name + "cannot get connect port",

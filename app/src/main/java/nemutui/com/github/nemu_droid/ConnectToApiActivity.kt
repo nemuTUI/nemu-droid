@@ -1,5 +1,6 @@
 package nemutui.com.github.nemu_droid
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -88,6 +89,12 @@ class ConnectToApiActivity : AppCompatActivity() {
          mAdapter.notifyItemRemoved(position);
          mAdapter.notifyItemRangeChanged(position, list.size());
          */
+    }
+
+    fun editSettings(nemu: MenuItem) {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     lateinit private var rec_view : VmListAadapter

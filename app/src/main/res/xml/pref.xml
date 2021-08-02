@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="ssh_proxy"
+        app:title="SPICE over SSH"/>
+
+    <EditTextPreference
+        app:key="ssh_host"
+        app:useSimpleSummaryProvider="true"
+        app:title="SSH host"/>
+
+    <EditTextPreference
+        app:key="ssh_port"
+        app:defaultValue="22"
+        app:useSimpleSummaryProvider="true"
+        app:title="SSH port"/>
+
+    <EditTextPreference
+        app:key="ssh_user"
+        app:useSimpleSummaryProvider="true"
+        app:title="SSH user"/>
+
+</PreferenceScreen>

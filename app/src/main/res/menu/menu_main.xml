@@ -12,6 +12,9 @@
     <item
         android:id="@+id/settings"
         android:visible="true"
+        android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/nemu_settings"
-        app:showAsAction="never" />
+        android:onClick="editSettings"
+        app:showAsAction="always"
+        />
 </menu>
