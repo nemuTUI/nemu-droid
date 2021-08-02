@@ -1,9 +1,10 @@
 
-v0.?.? - ?
+v0.1.0 - ?
 ----------------------
     - Change: move refresh button to menu
     - Feature: use default connection port if field is empty
     - Feature: save previous address/port/check_cert input
+    - Feature: SPICE over SSH
 
 v0.0.1 - 14 July 2021
 ----------------------
