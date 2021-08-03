@@ -22,4 +22,9 @@
         app:useSimpleSummaryProvider="true"
         app:title="SSH user"/>
 
+    <EditTextPreference
+        app:key="ssh_pass"
+        app:dialogTitle="If empty will be prompted later"
+        app:title="SSH password"/>
+
 </PreferenceScreen>

@@ -95,12 +95,17 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                                     val ssh_host = preferences.getString("ssh_host", nemu_api.getApiAddr())
                                     val ssh_port = preferences.getString("ssh_port", "22")
                                     val ssh_user = preferences.getString("ssh_user", "user")
+                                    val ssh_pass = preferences.getString("ssh_pass", "not set")
                                     var uri = "spice://" + nemu_api.getApiAddr() + ":" +
                                            nemu_api.getConnectPort() + "?ConnectionName=" + name
 
                                     if (use_ssh) {
-                                        uri += "&VncPassword=anystring&SshHost=" + ssh_host + "&SshPort=" +
+                                        uri += "&SpicePassword=anystring&SshHost=" + ssh_host + "&SshPort=" +
                                             ssh_port + "&SshUsername=" + ssh_user + "&SecurityType=24"
+                                    }
+
+                                    if (!ssh_pass.equals("not set")) {
+                                        uri += "&SshPassword=" + ssh_pass
                                     }
 
                                     intent.setType("application/vnd.spice")
