@@ -29,18 +29,18 @@ class ConnectToApiActivity : AppCompatActivity() {
 
         if (!auth_res) {
             tv.apply {
-                this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
+                this.text = getString(R.string.nemu_info, api_conn, api_port, nemu_client.getErr())
             }
         } else {
             val ver = nemu_client.nemuVersion()
 
             if (ver) {
                 tv.apply {
-                    this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getVersion()
+                    this.text = getString(R.string.nemu_info, api_conn, api_port, nemu_client.getVersion())
                 }
             } else {
                 tv.apply {
-                    this.text = "nEMU [" + api_conn + ":" + api_port + "] " + nemu_client.getErr()
+                    this.text = getString(R.string.nemu_info, api_conn, api_port, nemu_client.getErr())
                 }
             }
 

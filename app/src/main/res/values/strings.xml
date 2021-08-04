@@ -8,4 +8,5 @@
     <string name="nemu_connect">CONNECT</string>
     <string name="nemu_settings">settings</string>
     <string name="data_refresh">refresh</string>
+    <string name="nemu_info">nEMU [%1$s:%2$s] %3$s</string>
 </resources>
