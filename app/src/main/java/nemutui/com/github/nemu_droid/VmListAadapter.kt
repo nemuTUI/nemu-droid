@@ -1,5 +1,6 @@
 package nemutui.com.github.nemu_droid
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -31,6 +32,7 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
         return VmListHolder(itemView)
     }
 
+    @SuppressLint("IntentReset")
     override fun onBindViewHolder(holder: VmListHolder, position: Int) {
         holder.vm_name?.text = vmlist[position].first
         holder.vm_status?.text = if (vmlist[position].second) "running" else "stopped"
@@ -108,8 +110,8 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                                         uri += "&SshPassword=" + ssh_pass
                                     }
 
-                                    intent.setType("application/vnd.spice")
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    intent.setType("application/vnd.spice")
                                     intent.setData(Uri.parse(uri))
                                     holder.itemView.context.startActivity(intent)
                                 } else {

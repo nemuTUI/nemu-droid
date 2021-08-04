@@ -1,5 +1,6 @@
 package nemutui.com.github.nemu_droid
 
+import android.annotation.SuppressLint
 import android.util.Log
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
@@ -7,14 +8,15 @@ import io.ktor.network.tls.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import org.json.JSONArray
 import org.json.JSONObject
 import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 import javax.net.ssl.X509TrustManager
 
 class X509TrustAllManager : X509TrustManager {
+    @SuppressLint("TrustAllX509TrustManager")
     override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+    @SuppressLint("TrustAllX509TrustManager")
     override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
     override fun getAcceptedIssuers(): Array<X509Certificate?> = arrayOfNulls<X509Certificate>(0)
 }
@@ -23,8 +25,8 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     fun checkAuth(): Boolean {
         val request = "{\"exec\":\"auth\", \"auth\":\"" + api_pass + "\"}"
         if (this.send_request(request)) {
-            var json_reply = JSONObject(reply)
-            var verdict = json_reply.getString("return")
+            val json_reply = JSONObject(reply)
+            val verdict = json_reply.getString("return")
 
             if (verdict == "ok") {
                 return true
@@ -73,15 +75,14 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         }
 
         if (this.send_request(request)) {
-            var i = 0
-            var json_reply = JSONObject(reply)
-            var vms = json_reply.getJSONArray("return")
-            var vm_count = vms.length()
+            val json_reply = JSONObject(reply)
+            val vms = json_reply.getJSONArray("return")
+            val vm_count = vms.length()
 
             for (i in 0 .. (vm_count - 1)) {
-                var vm = vms.getJSONObject(i)
-                var name = vm.getString("name")
-                var status = vm.getBoolean("status")
+                val vm = vms.getJSONObject(i)
+                val name = vm.getString("name")
+                val status = vm.getBoolean("status")
 
                 vmlist.put(name, status)
             }
@@ -95,7 +96,7 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     fun nemuVersion() : Boolean {
         val request = "{\"exec\":\"nemu_version\", \"auth\":\"" + api_pass + "\"}"
         if (this.send_request(request)) {
-            var json_reply = JSONObject(reply)
+            val json_reply = JSONObject(reply)
             if (!json_reply.isNull("error")) {
                 val err = json_reply.getString("error")
                 err_msg = err
@@ -114,7 +115,7 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         val request = "{\"exec\":\"vm_get_connect_port\", \"name\":\"" + name +
                 "\", \"auth\":\"" + api_pass + "\"}"
         if (this.send_request(request)) {
-            var json_reply = JSONObject(reply)
+            val json_reply = JSONObject(reply)
             if (!json_reply.isNull("error")) {
                 val err = json_reply.getString("error")
                 err_msg = err
@@ -141,7 +142,7 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         return this.api_addr
     }
 
-    fun getConnectPort() : String? {
+    fun getConnectPort() : String {
         return this.connect_port
     }
 

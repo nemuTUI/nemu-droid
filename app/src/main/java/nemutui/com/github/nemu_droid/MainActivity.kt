@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
-import android.os.StrictMode.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
