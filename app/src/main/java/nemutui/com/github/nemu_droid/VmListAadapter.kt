@@ -104,7 +104,7 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                                             ssh_port + "&SshUsername=" + ssh_user + "&SecurityType=24"
                                     }
 
-                                    if (!ssh_pass.equals("not set")) {
+                                    if (use_ssh && !ssh_pass.equals("not set")) {
                                         uri += "&SshPassword=" + ssh_pass
                                     }
 
