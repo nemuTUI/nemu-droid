@@ -88,7 +88,6 @@ class ConnectToApiActivity : AppCompatActivity() {
     fun editSettings(nemu: MenuItem) {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     lateinit private var rec_view : VmListAadapter
