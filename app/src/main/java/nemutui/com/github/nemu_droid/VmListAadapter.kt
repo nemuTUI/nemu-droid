@@ -7,6 +7,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +17,7 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
     RecyclerView.Adapter<VmListAadapter.VmListHolder>() {
     class VmListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var vm_name: TextView? = null
-        var vm_status: TextView? = null
+        var vm_status: ImageView? = null
         var vm_options: TextView? = null
 
         init {
@@ -35,7 +36,11 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
     @SuppressLint("IntentReset")
     override fun onBindViewHolder(holder: VmListHolder, position: Int) {
         holder.vm_name?.text = vmlist[position].first
-        holder.vm_status?.text = if (vmlist[position].second) "running" else "stopped"
+        if (vmlist[position].second) {
+            holder.vm_status?.setImageResource(R.drawable.ic_round_power_on_18)
+        } else {
+            holder.vm_status?.setImageResource(R.drawable.ic_round_power_off_18)
+        }
 
         holder.vm_options?.setOnClickListener(View.OnClickListener {
             val menu = PopupMenu(holder.itemView.context, holder.vm_options)

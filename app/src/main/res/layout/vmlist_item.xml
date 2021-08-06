@@ -21,12 +21,13 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-            <TextView
+            <ImageView
                 android:id="@+id/vmitem_status"
                 android:layout_below="@id/vmitem_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
+                android:scaleType="fitStart"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/vmitem_options"
