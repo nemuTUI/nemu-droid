@@ -11,7 +11,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 
 const val EXTRA_NEMU_API_LOCATION = "nemutui.com.github.nemu_droid.EXTRA_NEMU_API_LOCATION"
 const val EXTRA_NEMU_API_PASSWORD = "nemutui.com.github.nemu_droid.EXTRA_NEMU_API_PASSWORD"
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         api_conn_et = findViewById<EditText>(R.id.nemu_api_location)
         api_port_et = findViewById<EditText>(R.id.nemu_api_port)
         api_pass_et = findViewById<EditText>(R.id.nemu_api_password)
-        api_check_cert_et = findViewById<Switch>(R.id.trust_all_sw)
+        api_check_cert_et = findViewById<SwitchCompat>(R.id.trust_all_sw)
 
         api_conn_et.addTextChangedListener(connect_text_watcher)
         api_port_et.addTextChangedListener(connect_text_watcher)
@@ -83,6 +83,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var api_conn_et : EditText
     private lateinit var api_port_et : EditText
     private lateinit var api_pass_et : EditText
-    private lateinit var api_check_cert_et : Switch
+    private lateinit var api_check_cert_et : SwitchCompat
     private lateinit var preferences : SharedPreferences
 }
