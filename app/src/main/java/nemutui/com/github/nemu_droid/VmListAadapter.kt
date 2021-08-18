@@ -107,7 +107,7 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
                                            nemu_api.getConnectPort() + "?ConnectionName=" + name
 
                                     if (use_ssh) {
-                                        uri += "&SpicePassword=anystring&SshHost=" + ssh_host + "&SshPort=" +
+                                        uri += "&SpicePassword&SshHost=" + ssh_host + "&SshPort=" +
                                             ssh_port + "&SshUsername=" + ssh_user + "&SecurityType=24"
                                     }
 
