@@ -25,6 +25,15 @@
                 android:value=".MainActivity">
             </meta-data>
         </activity>
+        <activity
+            android:name=".VmSettingsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ConnectToApiActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ConnectToApiActivity">
+            </meta-data>
+        </activity>
         <activity android:name=".SettingsActivity"
             android:parentActivityName=".ConnectToApiActivity">
             <meta-data

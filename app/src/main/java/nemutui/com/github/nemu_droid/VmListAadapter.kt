@@ -11,14 +11,18 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+
+const val EXTRA_NEMU_VM_NAME     = "nemutui.com.github.nemu_droid.EXTRA_NEMU_VM_NAME"
+const val EXTRA_NEMU_API_VER     = "nemutui.com.github.nemu_droid.EXTRA_NEMU_API_VER"
 
 class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiClient) :
     RecyclerView.Adapter<VmListAadapter.VmListHolder>() {
     class VmListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var vm_name: TextView? = null
         var vm_status: ImageView? = null
-        var vm_options: TextView? = null
+        var vm_options: ImageView? = null
 
         init {
             vm_name = itemView.findViewById(R.id.vmitem_name)
@@ -40,6 +44,19 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
             holder.vm_status?.setImageResource(R.drawable.ic_round_power_on_18)
         } else {
             holder.vm_status?.setImageResource(R.drawable.ic_round_power_off_18)
+        }
+
+        holder.itemView.setOnClickListener{view ->
+            val intent = Intent(view.context, VmSettingsActivity::class.java).apply {
+                putExtra(EXTRA_NEMU_VM_NAME,  vmlist[position].first)
+                putExtra(EXTRA_NEMU_API_LOCATION,  nemu_api.getApiAddr())
+                putExtra(EXTRA_NEMU_API_PORT,  nemu_api.getApiPort())
+                putExtra(EXTRA_NEMU_API_PASSWORD,  nemu_api.getApiPass())
+                putExtra(EXTRA_CHECK_CERTIFICATE,  nemu_api.getApiTrust())
+                putExtra(EXTRA_NEMU_API_VER,  nemu_api_version)
+            }
+
+            view.context.startActivity(intent)
         }
 
         holder.vm_options?.setOnClickListener(View.OnClickListener {
@@ -141,4 +158,5 @@ class VmListAadapter(private val vms: MutableMap<String, Boolean>, api: NemuApiC
 
     var vmlist: List<Pair<String, Boolean>> = vms.toList()
     private var nemu_api: NemuApiClient = api
+    private var nemu_api_version = api.getApiVersion()
 }

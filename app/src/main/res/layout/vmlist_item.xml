@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="#f9fafa"
@@ -32,15 +32,15 @@
                 android:paddingBottom="5dp"
                 android:scaleType="fitStart"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
-            <TextView
+
+            <ImageView
                 android:id="@+id/vmitem_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:paddingLeft="16dp"
-                android:text="&#8942;"
-                android:textAppearance="?android:textAppearanceLarge" />
+                card_view:srcCompat="@android:drawable/btn_radio" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

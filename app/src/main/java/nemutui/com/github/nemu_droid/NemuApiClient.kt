@@ -66,6 +66,68 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         }
     }
 
+    // Api >= 0.2
+    fun getVmProps02(name: String?) : VmProps02 {
+        val request = "{\"exec\":\"vm_get_settings\", \"name\":\"" + name +
+                "\", \"auth\":\"" + api_pass + "\"}"
+        var props = VmProps02()
+
+        if (this.send_request(request)) {
+            val json_reply = JSONObject(reply)
+            if (!json_reply.isNull("error")) {
+                val err = json_reply.getString("error")
+                err_msg = err
+                return props
+            }
+
+            props.result = true
+            if (json_reply.has("mem")) {
+                val json_param = json_reply.getJSONObject("mem")
+                if (json_param.has("value")) {
+                    val param = json_param.getString("value")
+                    props.mem = param.toInt()
+                }
+            }
+            if (json_reply.has("smp")) {
+                val json_param = json_reply.getJSONObject("smp")
+                if (json_param.has("value")) {
+                    val param = json_param.getString("value")
+                    props.smp = param
+                }
+            }
+            if (json_reply.has("kvm")) {
+                val json_param = json_reply.getJSONObject("kvm")
+                if (json_param.has("value")) {
+                    val param = json_param.getBoolean("value")
+                    props.kvm = param
+                }
+            }
+            if (json_reply.has("hcpu")) {
+                val json_param = json_reply.getJSONObject("hcpu")
+                if (json_param.has("value")) {
+                    val param = json_param.getBoolean("value")
+                    props.hcpu = param
+                }
+            }
+            if (json_reply.has("netifs")) {
+                val json_param = json_reply.getJSONObject("netifs")
+                if (json_param.has("value")) {
+                    val param = json_param.getString("value")
+                    props.netifs = param.toInt()
+                }
+            }
+            if (json_reply.has("disk_iface")) {
+                val json_param = json_reply.getJSONObject("disk_iface")
+                if (json_param.has("value")) {
+                    val param = json_param.getString("value")
+                    props.drv_iface = param
+                }
+            }
+        }
+
+        return props
+    }
+
     fun getVmList() : Boolean {
         val request = "{\"exec\":\"vm_list\", \"auth\":\"" + api_pass + "\"}"
         if (::vmlist.isInitialized) {
@@ -111,6 +173,28 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         return false
     }
 
+    fun apiVersion() : Boolean {
+        var request = "{\"exec\":\"api_version\"}"
+
+        if (this.send_request(request)) {
+            val json_reply = JSONObject(reply)
+            if (!json_reply.isNull("error")) {
+                val err = json_reply.getString("error")
+                err_msg = err
+                return false
+            }
+
+            api_version = json_reply.getString("return")
+            return true
+        }
+
+        return false
+    }
+
+    fun getApiVersion() : String {
+        return this.api_version
+    }
+
     fun connectPort(name: String) : Boolean {
         val request = "{\"exec\":\"vm_get_connect_port\", \"name\":\"" + name +
                 "\", \"auth\":\"" + api_pass + "\"}"
@@ -144,6 +228,18 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
 
     fun getConnectPort() : String {
         return this.connect_port
+    }
+
+    fun getApiPort() : String? {
+        return this.api_port
+    }
+
+    fun getApiPass() : String? {
+        return this.api_pass
+    }
+
+    fun getApiTrust() : Boolean {
+        return this.api_trust
     }
 
     private fun send_request(request: String): Boolean {
@@ -183,6 +279,7 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     private lateinit var reply : String
     private lateinit var version : String
     private lateinit var connect_port : String
+    private lateinit var api_version : String
 
     lateinit var vmlist: MutableMap<String, Boolean>
 }

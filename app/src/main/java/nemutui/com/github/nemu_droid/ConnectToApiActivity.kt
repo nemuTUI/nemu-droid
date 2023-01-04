@@ -22,12 +22,13 @@ class ConnectToApiActivity : AppCompatActivity() {
 
         val nemu_client = NemuApiClient(api_conn, api_port, api_pass, api_trust)
         val auth_res = nemu_client.checkAuth()
+        val api_res = nemu_client.apiVersion()
 
         nemu_api = nemu_client
 
         val tv = findViewById<TextView>(R.id.api_location)
 
-        if (!auth_res) {
+        if (!auth_res || !api_res) {
             tv.apply {
                 this.text = getString(R.string.nemu_info, api_conn, api_port, nemu_client.getErr())
             }
