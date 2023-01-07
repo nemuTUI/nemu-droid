@@ -66,11 +66,63 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
         }
     }
 
-    // Api >= 0.2
-    fun getVmProps02(name: String?) : VmProps02 {
+    fun setVmProps(name: String?, curProps: VmProps, newProps: VmProps) : Boolean {
+        var request = "{\"exec\":\"vm_set_settings\", \"name\":\"" + name +
+                "\", \"auth\":\"" + api_pass + "\""
+
+        if (curProps.smp != newProps.smp) {
+           request += ", \"smp\":\"" + newProps.smp + "\""
+        }
+
+        if (curProps.mem != newProps.mem) {
+            request += ", \"mem\":" + newProps.mem
+        }
+
+        if (curProps.netifs != newProps.netifs) {
+            request += ", \"netifs\":" + newProps.netifs
+        }
+
+        if (curProps.drv_iface != newProps.drv_iface) {
+            request += ", \"disk_iface\":\"" + newProps.drv_iface + "\""
+        }
+
+        if (curProps.kvm != newProps.kvm) {
+           if (newProps.kvm) {
+               request += ", \"kvm\":true"
+           } else {
+               request += ", \"kvm\":false"
+           }
+        }
+
+        if (curProps.hcpu != newProps.hcpu) {
+            if (newProps.hcpu) {
+                request += ", \"hcpu\":true"
+            } else {
+                request += ", \"hcpu\":false"
+            }
+        }
+
+        request += "}"
+
+        if (this.send_request(request)) {
+            val json_reply = JSONObject(reply)
+            val verdict = json_reply.getString("return")
+
+            if (verdict == "ok") {
+                return true
+            }
+
+            err_msg = json_reply.getString("error")
+            return false
+        }
+
+        return false
+    }
+
+    fun getVmProps(name: String?) : VmProps {
         val request = "{\"exec\":\"vm_get_settings\", \"name\":\"" + name +
                 "\", \"auth\":\"" + api_pass + "\"}"
-        var props = VmProps02()
+        val props = VmProps()
 
         if (this.send_request(request)) {
             val json_reply = JSONObject(reply)
@@ -112,8 +164,8 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
             if (json_reply.has("netifs")) {
                 val json_param = json_reply.getJSONObject("netifs")
                 if (json_param.has("value")) {
-                    val param = json_param.getString("value")
-                    props.netifs = param.toInt()
+                    val param = json_param.getInt("value")
+                    props.netifs = param
                 }
             }
             if (json_reply.has("disk_iface")) {
@@ -121,6 +173,13 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
                 if (json_param.has("value")) {
                     val param = json_param.getString("value")
                     props.drv_iface = param
+                }
+                if (json_param.has("value_list")) {
+                    val drivers = json_param.getJSONArray("value_list")
+
+                    props.drv_iface_list = Array(drivers.length()) {
+                        drivers.getString(it)
+                    }
                 }
             }
         }
@@ -174,7 +233,7 @@ class NemuApiClient(addr: String?, port: String?, pass: String?, trust: Boolean)
     }
 
     fun apiVersion() : Boolean {
-        var request = "{\"exec\":\"api_version\"}"
+        val request = "{\"exec\":\"api_version\"}"
 
         if (this.send_request(request)) {
             val json_reply = JSONObject(reply)
