@@ -129,7 +129,7 @@ class VmSettingsActivity : AppCompatActivity() {
             prop_drive_tv.textSize = 20f
             prop_drive_tv.setTextColor(Color.DKGRAY)
             prop_drive_tv.setPadding(20, 0, 0, 0)
-            prop_drive_tv.text = "Drive interfaces"
+            prop_drive_tv.text = "Drive interface"
             layout.addView(prop_drive_tv)
 
             prop_drive_sp = Spinner(this)
