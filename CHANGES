@@ -1,5 +1,6 @@
-v0.?.? - ?
+v0.2.0 - 07 January 2023
 ----------------------
+    - Feature: show/edit VM basic settings
     - Change: vm status displays as icon instead of text
 
 v0.1.0 - 05 August 2021

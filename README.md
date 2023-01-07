@@ -2,6 +2,7 @@
 
 ## Features
  * Connect to VM via SPICE protocol
+ * Show/edit VM basic settings
  * Start/stop/shutdown VM
 
 ## UI demo
